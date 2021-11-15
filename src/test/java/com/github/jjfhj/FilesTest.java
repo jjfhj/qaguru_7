@@ -1,11 +1,9 @@
 package com.github.jjfhj;
 
 import com.codeborne.pdftest.PDF;
-import com.codeborne.selenide.Configuration;
 import com.codeborne.xlstest.XLS;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +20,7 @@ public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Загрузка файла формата rtf")
-    void checkingFilenameAfterUpload() {
+    void checkingFilenameAfterUploadTest() {
         open("https://demoqa.com/upload-download");
         $("#uploadFile").uploadFromClasspath("example.rtf");
         $("#uploadedFilePath").shouldHave(text("example.rtf"));
@@ -30,7 +28,7 @@ public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Скачивание текстового файла и проверка его содержимого")
-    void checkingContentOfDownloadedTextFile() throws IOException {
+    void checkingContentOfDownloadedTextFileTest() throws IOException {
         open("http://www.sseu.ru/otdel-organizacii-praktik-i-stazhirovok/dogovor-na-praktiku");
         File download = $(byText("Договор о практической подготовке (долгосрочный)")).download();
         String fileContent = IOUtils.toString(new FileReader(download));
@@ -39,7 +37,7 @@ public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Скачивание PDF файла и проверка его содержимого")
-    void checkingContentOfDownloadedPDFFile() throws IOException {
+    void checkingContentOfDownloadedPDFFileTest() throws IOException {
         open("https://canadamania.ru/uslugi/platnaya-onlayn-konsultatsiya/");
         File pdf = $("[title='Initial Consultation Template']").download();
         PDF parsedPdf = new PDF(pdf);
@@ -49,7 +47,7 @@ public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Скачивание XLS файла и проверка его содержимого")
-    void checkingContentOfDownloadedXLSFile() throws FileNotFoundException {
+    void checkingContentOfDownloadedXLSFileTest() throws FileNotFoundException {
         open("http://drgorka.ru/prices/");
         File xls = $("[title='скачать прайс-лист в формате Excel']").download();
         XLS parsedXls = new XLS(xls);
@@ -60,7 +58,7 @@ public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Парсинг и проверка названия ZIP файла")
-    void checkingFileNameInZipArchive() throws IOException {
+    void checkingFileNameInZipArchiveTest() throws IOException {
         ClassLoader classLoader = this.getClass().getClassLoader();
         try (InputStream is = classLoader.getResourceAsStream("price_1c.zip");
              ZipInputStream zis = new ZipInputStream(is)) {
