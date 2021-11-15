@@ -18,12 +18,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class FilesTest {
-
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.browserSize = "1920x1080";
-    }
+public class FilesTest extends TestBase {
 
     @Test
     @DisplayName("Загрузка файла формата rtf")
