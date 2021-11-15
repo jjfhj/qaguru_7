@@ -65,7 +65,6 @@ public class FilesTest extends TestBase {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 Assertions.assertEquals("price_1c.xls", entry.getName());
-                System.out.println(entry.getName());
             }
         }
     }
