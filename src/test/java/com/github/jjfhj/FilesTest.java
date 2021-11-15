@@ -9,16 +9,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FilesTest {
 
@@ -63,5 +61,19 @@ public class FilesTest {
         Assertions.assertEquals(4, parsedXls.excel.getNumberOfSheets());
         Assertions.assertEquals("Контакты", parsedXls.excel.getSheetAt(3).getSheetName());
         Assertions.assertEquals(43, parsedXls.excel.getSheetAt(2).getLastRowNum());
+    }
+
+    @Test
+    @DisplayName("Парсинг и проверка названия ZIP файла")
+    void checkingFileNameInZipArchive() throws IOException {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        try (InputStream is = classLoader.getResourceAsStream("price_1c.zip");
+             ZipInputStream zis = new ZipInputStream(is)) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                Assertions.assertEquals("price_1c.xls", entry.getName());
+                System.out.println(entry.getName());
+            }
+        }
     }
 }
