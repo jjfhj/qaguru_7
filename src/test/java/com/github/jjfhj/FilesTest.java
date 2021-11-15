@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class FilesTest extends TestBase {
 
     @Test
-    @DisplayName("Загрузка файла формата rtf")
+    @DisplayName("Загрузка файла формата RTF и проверка его названия")
     void checkingFilenameAfterUploadTest() {
         open("https://demoqa.com/upload-download");
         $("#uploadFile").uploadFromClasspath("example.rtf");
@@ -27,7 +27,7 @@ public class FilesTest extends TestBase {
     }
 
     @Test
-    @DisplayName("Скачивание текстового файла и проверка его содержимого")
+    @DisplayName("Скачивание DOC файла и проверка его содержимого")
     void checkingContentOfDownloadedTextFileTest() throws IOException {
         open("http://www.sseu.ru/otdel-organizacii-praktik-i-stazhirovok/dogovor-na-praktiku");
         File download = $(byText("Договор о практической подготовке (долгосрочный)")).download();
@@ -57,7 +57,7 @@ public class FilesTest extends TestBase {
     }
 
     @Test
-    @DisplayName("Парсинг и проверка названия ZIP файла")
+    @DisplayName("Парсинг и проверка названия файла в ZIP архиве")
     void checkingFileNameInZipArchiveTest() throws IOException {
         ClassLoader classLoader = this.getClass().getClassLoader();
         try (InputStream is = classLoader.getResourceAsStream("price_1c.zip");
