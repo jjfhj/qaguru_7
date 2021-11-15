@@ -2,6 +2,7 @@ package com.github.jjfhj;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.xlstest.XLS;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,14 +10,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FilesTest {
 
@@ -50,5 +52,16 @@ public class FilesTest {
         PDF parsedPdf = new PDF(pdf);
         Assertions.assertEquals("Mihaela", parsedPdf.author);
         Assertions.assertEquals(1, parsedPdf.numberOfPages);
+    }
+
+    @Test
+    @DisplayName("Скачивание XLS файла и проверка его содержимого")
+    void checkingContentOfDownloadedXLSFile() throws FileNotFoundException {
+        open("http://drgorka.ru/prices/");
+        File xls = $("[title='скачать прайс-лист в формате Excel']").download();
+        XLS parsedXls = new XLS(xls);
+        Assertions.assertEquals(4, parsedXls.excel.getNumberOfSheets());
+        Assertions.assertEquals("Контакты", parsedXls.excel.getSheetAt(3).getSheetName());
+        Assertions.assertEquals(43, parsedXls.excel.getSheetAt(2).getLastRowNum());
     }
 }
